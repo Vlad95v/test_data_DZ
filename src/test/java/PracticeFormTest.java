@@ -40,7 +40,7 @@ public class PracticeFormTest extends TestBase {
         $x("//tr[td[text()='Subjects']]/td[2]").shouldHave(text("English, Hindi"));
         $x("//tr[td[text()='Hobbies']]/td[2]").shouldHave(text("Music"));
         $x("//tr[td[text()='Picture']]/td[2]").shouldHave(text("photo.jpg"));
-        $x("//tr[td[text()='Address']]/td[2]").shouldHave(text("Москваhggg, проспект Андропова"));
+        $x("//tr[td[text()='Address']]/td[2]").shouldHave(text("Москваа , проспект Андропова"));
         $x("//tr[td[text()='State and City']]/td[2]").shouldHave(text("Uttar Pradesh Lucknow"));
 
     }
