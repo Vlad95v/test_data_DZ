@@ -13,15 +13,10 @@ public class TestData {
     public static String birthYear = "2027";
     public static String birthMonth = "May";
     public static String birthDay = "19";
-
     public static String subjectValueFirst = "English";
     public static String subjectValueSecond = "Hindi";
-
     public static String hobby = "Music";
     public static String picture = "photo.jpg";
-
     public static String stateOption = "Uttar Pradesh";
     public static String cityOption = "Lucknow";
-    public static String stateAndCityValue = stateOption + " " + cityOption;
-
 }
