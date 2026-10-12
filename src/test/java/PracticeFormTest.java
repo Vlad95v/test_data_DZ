@@ -19,17 +19,15 @@ public class PracticeFormTest extends TestBase {
         $("#dateOfBirthInput").click();
         $(".react-datepicker__year-select").selectOption(birthYear);
         $(".react-datepicker__month-select").selectOption(birthMonth);
-        $(".react-datepicker__day--019").click();
-        $("#subjectsInput").setValue("E").pressEnter();
+        $(".react-datepicker__day--0" + birthDay).click();
+        $("#subjectsInput").setValue(subjectValueFirst).pressEnter();
         $("#subjectsInput").clear();
-        $("#subjectsInput").setValue("H").pressEnter();
+        $("#subjectsInput").setValue(subjectValueSecond).pressEnter();
         $("#hobbiesWrapper").$(byText(hobby)).click();
         $("#uploadPicture").uploadFromClasspath(picture);
         $("#currentAddress").setValue(currentAddress);
-        $("#state").click();
-        $("#react-select-3-option-1").click();
-        $("#city").click();
-        $("#react-select-4-option-1").click();
+        $("#react-select-3-input").setValue(stateOption).pressEnter();
+        $("#react-select-4-input").setValue(cityOption).pressEnter();
         $("#submit").click();
 
         $(".modal-content").shouldBe(visible);
@@ -37,12 +35,12 @@ public class PracticeFormTest extends TestBase {
         $x("//tr[td[text()='Student Email']]/td[2]").shouldHave(text(userEmail));
         $x("//tr[td[text()='Gender']]/td[2]").shouldHave(text(genderMale));
         $x("//tr[td[text()='Mobile']]/td[2]").shouldHave(text(userNumber));
-        $x("//tr[td[text()='Date of Birth']]/td[2]").shouldHave(text("19" + " " + birthMonth + "," + birthYear));
-        $x("//tr[td[text()='Subjects']]/td[2]").shouldHave(text("English, Hindi"));
+        $x("//tr[td[text()='Date of Birth']]/td[2]").shouldHave(text(birthDay + " " + birthMonth + "," + birthYear));
+        $x("//tr[td[text()='Subjects']]/td[2]").shouldHave(text(subjectValueFirst + ", " + subjectValueSecond));
         $x("//tr[td[text()='Hobbies']]/td[2]").shouldHave(text(hobby));
         $x("//tr[td[text()='Picture']]/td[2]").shouldHave(text(picture));
         $x("//tr[td[text()='Address']]/td[2]").shouldHave(text(currentAddress));
-        $x("//tr[td[text()='State and City']]/td[2]").shouldHave(text("Uttar Pradesh Lucknow"));
+        $x("//tr[td[text()='State and City']]/td[2]").shouldHave(text(stateOption + " " + cityOption));
 
     }
         @Test
