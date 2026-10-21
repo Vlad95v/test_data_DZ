@@ -1,5 +1,8 @@
 package testdata;
 
+import com.codeborne.selenide.Condition;
+import static com.codeborne.selenide.Condition.cssClass;
+
 public class TestData {
     public static String firstName = "Roman";
     public static String lastName = "Ivanov";
@@ -19,4 +22,8 @@ public class TestData {
     public static String picture = "photo.jpg";
     public static String stateOption = "Uttar Pradesh";
     public static String cityOption = "Lucknow";
+    public static String borderColorProperty  = "border-color";
+    public static String errorColor = "rgb(220, 53, 69)";
+    public static String validateClass = "was-validated";
+
 }

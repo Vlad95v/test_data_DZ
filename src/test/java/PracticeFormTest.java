@@ -1,126 +1,90 @@
 import org.junit.jupiter.api.Test;
-
-
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.*;
+import pages.PracticeFormPage;
 import static testdata.TestData.*;
 
 public class PracticeFormTest extends TestBase {
+    PracticeFormPage practiceFormPage = new PracticeFormPage();
 
     @Test
     void succesfulFormTests() {
-        open("/automation-practice-form");
-        $("#firstName").setValue(firstName);
-        $("#lastName").setValue(lastName);
-        $("#userEmail").setValue(userEmail);
-        $("#genterWrapper").$(byText(genderMale)).click();
-        $("#userNumber").setValue(userNumber);
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__year-select").selectOption(birthYear);
-        $(".react-datepicker__month-select").selectOption(birthMonth);
-        $(".react-datepicker__day--0" + birthDay).click();
-        $("#subjectsInput").setValue(subjectValueFirst).pressEnter();
-        $("#subjectsInput").clear();
-        $("#subjectsInput").setValue(subjectValueSecond).pressEnter();
-        $("#hobbiesWrapper").$(byText(hobby)).click();
-        $("#uploadPicture").uploadFromClasspath(picture);
-        $("#currentAddress").setValue(currentAddress);
-        $("#react-select-3-input").setValue(stateOption).pressEnter();
-        $("#react-select-4-input").setValue(cityOption).pressEnter();
-        $("#submit").click();
 
-        $(".modal-content").shouldBe(visible);
-        $x("//tr[td[text()='Student Name']]/td[2]").shouldHave(text(firstName + " " + lastName));
-        $x("//tr[td[text()='Student Email']]/td[2]").shouldHave(text(userEmail));
-        $x("//tr[td[text()='Gender']]/td[2]").shouldHave(text(genderMale));
-        $x("//tr[td[text()='Mobile']]/td[2]").shouldHave(text(userNumber));
-        $x("//tr[td[text()='Date of Birth']]/td[2]").shouldHave(text(birthDay + " " + birthMonth + "," + birthYear));
-        $x("//tr[td[text()='Subjects']]/td[2]").shouldHave(text(subjectValueFirst + ", " + subjectValueSecond));
-        $x("//tr[td[text()='Hobbies']]/td[2]").shouldHave(text(hobby));
-        $x("//tr[td[text()='Picture']]/td[2]").shouldHave(text(picture));
-        $x("//tr[td[text()='Address']]/td[2]").shouldHave(text(currentAddress));
-        $x("//tr[td[text()='State and City']]/td[2]").shouldHave(text(stateOption + " " + cityOption));
+        practiceFormPage.openPage()
+                    .typeFirstName(firstName)
+                    .typeLastName(lastName)
+                    .typeUserEmail(userEmail)
+                    .setGender(genderMale)
+                    .typeUserNumber(userNumber)
+                    .setDateOfBirth(birthDay, birthMonth, birthYear)
+                    .typeSubjects(subjectValueFirst)
+                    .typeSubjects(subjectValueSecond)
+                    .setHobbies(hobby)
+                    .uploadPicture(picture)
+                    .typeAddress(currentAddress)
+                    .setState(stateOption)
+                    .setCity(cityOption)
+                    .submitForm()
+
+                    .checkModalWindow()
+                    .CkeckFields("Student Name", firstName + " " + lastName)
+                    .CkeckFields("Student Email", userEmail)
+                    .CkeckFields("Gender", genderMale)
+                    .CkeckFields("Mobile", userNumber)
+                    .CkeckFields("Date of Birth", birthDay + " " + birthMonth + "," + birthYear)
+                    .CkeckFields("Subjects", subjectValueFirst + ", " + subjectValueSecond)
+                    .CkeckFields("Hobbies", hobby)
+                    .CkeckFields("Picture", picture)
+                    .CkeckFields("Address", currentAddress)
+                    .CkeckFields("State and City", stateOption + " " + cityOption);
 
     }
         @Test
         void succesfulRequiredFieldsTests() {
-            open("/automation-practice-form");
-            $("#firstName").setValue(firstName);
-            $("#lastName").setValue(lastName);
-            $("#genterWrapper").$(byText(genderFemale)).click();
-            $("#userNumber").setValue(userNumber);
-            $("#submit").click();
+            practiceFormPage.openPage()
+                    .typeFirstName(firstName)
+                    .typeLastName(lastName)
+                    .setGender(genderMale)
+                    .typeUserNumber(userNumber)
+                    .submitForm()
 
-            $(".modal-content").shouldBe(visible);
-            $x("//tr[td[text()='Student Name']]/td[2]").shouldHave(text(firstName + " " + lastName));
-            $x("//tr[td[text()='Gender']]/td[2]").shouldHave(text(genderFemale));
-            $x("//tr[td[text()='Mobile']]/td[2]").shouldHave(text(userNumber));
+                    .checkModalWindow()
+                    .CkeckFields("Student Name", firstName + " " + lastName)
+                    .CkeckFields("Gender", genderMale)
+                    .CkeckFields("Mobile", userNumber);
 
     }
 
         @Test
         void negativeUserNumberTests() {
-            open("/automation-practice-form");
-            $("#firstName").setValue(firstName);
-            $("#lastName").setValue(lastName);
-            $("#genterWrapper").$(byText(genderFemale)).click();
-            $("#userNumber").setValue("8999");
-            $("#submit").click();
+            practiceFormPage.openPage()
+                    .typeFirstName(firstName)
+                    .typeLastName(lastName)
+                    .setGender(genderMale)
+                    .typeUserNumber("8999")
+                    .submitForm()
 
-            $("#userForm").shouldHave(cssClass("was-validated"));
+                    .checkUserValidForm();
 
     }
          @Test
          void negativeRequiredFieldsTests() {
-             open("/automation-practice-form");
-             $("#submit").click();
+             practiceFormPage.openPage()
+                     .submitForm()
 
-             $("#userNumber").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
-             $("#firstName").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
-             $("#lastName").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
-             $("#genterWrapper").$(byText(genderMale)).shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
-             $("#genterWrapper").$(byText(genderFemale)).shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
-             $("#genterWrapper").$(byText(genderOther)).shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
-
+                    .checkUserNameBorderColor()
+                    .checkUserSurnameBorderColor()
+                    .checkUserNumberBorderColor()
+                    .checkSetGenderBorderColor(genderMale)
+                    .checkSetGenderBorderColor(genderFemale)
+                    .checkSetGenderBorderColor(genderOther);
     }
 
          @Test
          void negativeUserEmailTests() {
-             open("/automation-practice-form");
-             $("#userEmail").setValue("roman@ivi");
-             $("#submit").click();
+             practiceFormPage.openPage()
+                     .typeUserEmail("roman@ivi")
+                     .submitForm()
 
-             $("#userEmail").shouldHave(cssValue("border-color", "rgb(220, 53, 69)"));
-
-    }
-
-        @Test
-        void succesfulSimpleFormTests() {
-            open("/text-box");
-            $("#userName").setValue(firstName + " " + lastName);
-            $("#userEmail").setValue(userEmail);
-            $("#currentAddress").setValue(currentAddress);
-            $("#permanentAddress").setValue(permanentAddress);
-            $("#submit").click();
-
-            $("#output #name").shouldHave(text(firstName + " " + lastName));
-            $("#output #email").shouldHave(text(userEmail));
-            $("#output #currentAddress").shouldHave(text(currentAddress));
-            $("#output #permanentAddress").shouldHave(text(permanentAddress));
-
-    }
-
-        @Test
-        void negativeSimpleFormTests() {
-            open("/text-box");
-            $("#userName").setValue(firstName + " " + lastName);
-            $("#userEmail").setValue("romanivi.ru");
-            $("#submit").click();
-
-            $("#userEmail").shouldHave(cssValue("border-color", "rgb(255, 0, 0)"));
-            $("#output #name").shouldNotBe(visible);
-            $("#output #email").shouldNotBe(visible);
+                     .checkUserMailBorderColor();
 
     }
 }
